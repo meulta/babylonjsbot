@@ -1,9 +1,9 @@
 import { Helpers } from './Helpers'
 
 export module DocumentationAPI {
-    export function search(what: string): string{
+    export function search(what: string, done: (jsonResult:string) => any): string{
             Helpers.API.DownloadJson(`http://doc.babylonjs.com/search/?q=${what}&renderType=json`, (result) => {
-            console.log(result);
+            done(result);
         });
         return "";
     }

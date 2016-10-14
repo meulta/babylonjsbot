@@ -34,12 +34,22 @@ intents.matches('GetCodeSample', '/GetCodeSample');
 
 bot.dialog('/Hello', function (session) {
     session.send("Hello I am the **Babylon.js bot**! \n\n I can talk to you about 3D ! Ask me how to create 'lights', for exemple.");
-    session.send(DocumentationAPI.search("lights"));
     session.endDialog();
 });
 
-bot.dialog('/GetDocumentation', function (session) {
+bot.dialog('/GetDocumentation', function (session, args) {
     session.send("Get documentation");
+    var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
+
+    if(frameworkElement){
+        DocumentationAPI.search("lights", (result) => {
+            session.send(result);            
+        });
+    }
+    else {
+        session.send("didnt get that.")
+    }
+
     session.endDialog();
 });
 

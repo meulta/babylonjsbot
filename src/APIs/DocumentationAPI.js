@@ -2,9 +2,9 @@
 var Helpers_1 = require('./Helpers');
 var DocumentationAPI;
 (function (DocumentationAPI) {
-    function search(what) {
+    function search(what, done) {
         Helpers_1.Helpers.API.DownloadJson("http://doc.babylonjs.com/search/?q=" + what + "&renderType=json", function (result) {
-            console.log(result);
+            done(result);
         });
         return "";
     }

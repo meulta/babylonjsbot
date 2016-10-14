@@ -1,6 +1,7 @@
-'use strict';
+"use strict";
 var restify = require('restify');
 var builder = require('botbuilder');
+var DocumentationAPI_1 = require('./APIs/DocumentationAPI');
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -27,6 +28,7 @@ intents.matches('GetDocumentation', '/GetDocumentation');
 intents.matches('GetCodeSample', '/GetCodeSample');
 bot.dialog('/Hello', function (session) {
     session.send("Hello I am the **Babylon.js bot**! \n\n I can talk to you about 3D ! Ask me how to create 'lights', for exemple.");
+    session.send(DocumentationAPI_1.DocumentationAPI.search("lights"));
     session.endDialog();
 });
 bot.dialog('/GetDocumentation', function (session) {

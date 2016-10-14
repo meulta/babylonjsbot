@@ -1,6 +1,6 @@
-'use strict';
 import restify = require('restify');
 import builder = require('botbuilder');
+import { DocumentationAPI } from './APIs/DocumentationAPI';
 
 //=========================================================
 // Bot Setup
@@ -34,6 +34,7 @@ intents.matches('GetCodeSample', '/GetCodeSample');
 
 bot.dialog('/Hello', function (session) {
     session.send("Hello I am the **Babylon.js bot**! \n\n I can talk to you about 3D ! Ask me how to create 'lights', for exemple.");
+    session.send(DocumentationAPI.search("lights"));
     session.endDialog();
 });
 

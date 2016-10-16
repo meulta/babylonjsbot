@@ -1,6 +1,7 @@
 import restify = require('restify');
 import builder = require('botbuilder');
 import { DocumentationAPI } from './APIs/DocumentationAPI';
+import { SearchResults } from './APIS/SearchResults'
 
 //=========================================================
 // Bot Setup
@@ -32,6 +33,36 @@ intents.matches('Hello', '/Hello');
 intents.matches('GetDocumentation', '/GetDocumentation');
 intents.matches('GetCodeSample', '/GetCodeSample');
 
+var buildSearchResultCard = function(session, imageUrl, title, description, results:SearchResults.SearchResult[]): builder.Message{
+    var msg = new builder.Message(session).textFormat(builder.TextFormat.xml);
+    var heroCard = new builder.HeroCard(session)
+    msg.addAttachment(heroCard);
+
+    if(imageUrl){
+        heroCard.images([
+            builder.CardImage.create(session, imageUrl)
+        ]);
+    }
+
+    if(title){
+        heroCard.title(title); 
+    }
+
+    if(title){
+        heroCard.title(description); 
+    }
+
+    var count = 1;
+    var heroCardButtons = [];
+    for(var searchResult of results){
+        heroCardButtons.push(builder.CardAction.openUrl(session, searchResult.url, 'Result ' + count));
+        if(count++ > 2) break;
+    }
+    heroCard.buttons(heroCardButtons);
+
+    return msg;
+}
+
 bot.dialog('/Hello', function (session) {
     session.send("Hello I am the **Babylon.js bot**! \n\n I can talk to you about 3D ! Ask me how to create 'lights', for exemple.");
     session.endDialog();
@@ -42,8 +73,13 @@ bot.dialog('/GetDocumentation', function (session, args) {
     var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
 
     if(frameworkElement){
-        DocumentationAPI.search("lights", (result) => {
-            session.send(result);            
+        DocumentationAPI.search(frameworkElement.entity, (results) => {
+            var msg = buildSearchResultCard(session, 
+                                "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
+                                "Documentation",
+                                "Results for :'" + frameworkElement.entity + "'",
+                                results)
+            session.send(msg);            
         });
     }
     else {

@@ -1,11 +1,23 @@
 import { Helpers } from './Helpers'
+import { SearchResults } from './SearchResults'
+type SearchResult = SearchResults.SearchResult;
+
 
 export module DocumentationAPI {
-    export function search(what: string, done: (jsonResult:string) => any): string{
-            Helpers.API.DownloadJson(`http://doc.babylonjs.com/search/?q=${what}&renderType=json`, (result) => {
-            done(result);
+    export function search(what: string, done: (jsonResult:SearchResult[]) => any): void {
+        Helpers.API.DownloadJson(`http://doc.babylonjs.com/search/?q=${what}&renderType=json`, (results:any) => {
+            var searchResults:SearchResult[] = [];
+            results = JSON.parse(results);
+
+            for(var result of results.results){
+                var res = new SearchResults.SearchResult();
+                res.name = result.name;
+                res.url = result.url
+                searchResults.push(res);
+            }
+
+            done(searchResults);
         });
-        return "";
     }
 
     export class DocumentationResults

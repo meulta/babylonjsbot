@@ -13,7 +13,7 @@ export namespace Helpers {
                 }
             };
 
-            xhr.open("GET", url, true);
+            xhr.open("POST", url, true);
             xhr.send();
         }
     }

@@ -55,7 +55,7 @@ var buildSearchResultCard = function(session, imageUrl, title, description, resu
     var count = 1;
     var heroCardButtons = [];
     for(var searchResult of results){
-        heroCardButtons.push(builder.CardAction.openUrl(session, searchResult.url, 'Result ' + count));
+        heroCardButtons.push(builder.CardAction.openUrl(session, searchResult.url, searchResult.name));
         if(count++ > 2) break;
     }
     heroCard.buttons(heroCardButtons);
@@ -77,7 +77,7 @@ bot.dialog('/GetDocumentation', function (session, args) {
             var msg = buildSearchResultCard(session, 
                                 "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
                                 "Documentation",
-                                "Results for :'" + frameworkElement.entity + "'",
+                                "You can learn about '" + frameworkElement.entity + "' here:",
                                 results)
             session.send(msg);            
         });

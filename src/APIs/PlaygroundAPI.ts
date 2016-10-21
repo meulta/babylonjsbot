@@ -3,7 +3,7 @@ import { SearchResults } from './SearchResults'
 
 export module DocumentationAPI {
     export function search(what: string, done: (jsonResult:SearchResults.SearchResult[]) => any): void {
-        Helpers.API.DownloadJson(`http://doc.babylonjs.com/search/?q=${what}&renderType=json`, (results:any) => {
+        Helpers.API.DownloadJson(`http://babylonjs-api.azurewebsites.net/api/`, (results:any) => {
             var searchResults:SearchResults.SearchResult[] = [];
             results = JSON.parse(results);
 

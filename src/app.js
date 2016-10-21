@@ -45,7 +45,7 @@ var buildSearchResultCard = function (session, imageUrl, title, description, res
     var heroCardButtons = [];
     for (var _i = 0, results_1 = results; _i < results_1.length; _i++) {
         var searchResult = results_1[_i];
-        heroCardButtons.push(builder.CardAction.openUrl(session, searchResult.url, 'Result ' + count));
+        heroCardButtons.push(builder.CardAction.openUrl(session, searchResult.url, searchResult.name));
         if (count++ > 2)
             break;
     }
@@ -61,7 +61,7 @@ bot.dialog('/GetDocumentation', function (session, args) {
     var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
     if (frameworkElement) {
         DocumentationAPI_1.DocumentationAPI.search(frameworkElement.entity, function (results) {
-            var msg = buildSearchResultCard(session, "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", "Documentation", "Results for :'" + frameworkElement.entity + "'", results);
+            var msg = buildSearchResultCard(session, "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", "Documentation", "You can learn about '" + frameworkElement.entity + "' here:", results);
             session.send(msg);
         });
     }

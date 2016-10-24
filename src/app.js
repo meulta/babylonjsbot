@@ -2,6 +2,7 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var DocumentationAPI_1 = require('./APIs/DocumentationAPI');
+var PlaygroundAPI_1 = require('./APIs/PlaygroundAPI');
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -70,7 +71,17 @@ bot.dialog('/GetDocumentation', function (session, args) {
     }
     session.endDialog();
 });
-bot.dialog('/GetCodeSample', function (session) {
+bot.dialog('/GetCodeSample', function (session, args) {
     session.send("Get code sample");
+    var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
+    if (frameworkElement) {
+        PlaygroundAPI_1.PlaygroundAPI.search(frameworkElement.entity, function (results) {
+            var msg = buildSearchResultCard(session, "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", "Code", "You see code about '" + frameworkElement.entity + "' here:", results);
+            session.send(msg);
+        });
+    }
+    else {
+        session.send("didnt get that.");
+    }
     session.endDialog();
 });

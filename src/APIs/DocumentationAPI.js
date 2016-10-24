@@ -18,22 +18,4 @@ var DocumentationAPI;
         });
     }
     DocumentationAPI.search = search;
-    var DocumentationResults = (function () {
-        function DocumentationResults() {
-        }
-        return DocumentationResults;
-    }());
-    DocumentationAPI.DocumentationResults = DocumentationResults;
-    var Result = (function () {
-        function Result() {
-        }
-        return Result;
-    }());
-    DocumentationAPI.Result = Result;
-    var Availablefilter = (function () {
-        function Availablefilter() {
-        }
-        return Availablefilter;
-    }());
-    DocumentationAPI.Availablefilter = Availablefilter;
 })(DocumentationAPI = exports.DocumentationAPI || (exports.DocumentationAPI = {}));

@@ -4,7 +4,9 @@ var Helpers;
     var API = (function () {
         function API() {
         }
-        API.DownloadJson = function (url, done) {
+        API.DownloadJson = function (url, done, post, options) {
+            if (post === void 0) { post = false; }
+            if (options === void 0) { options = undefined; }
             var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
             var xhr = new XMLHttpRequest();
             xhr.onload = function () {
@@ -15,8 +17,9 @@ var Helpers;
                     console.log("Error downloading file: " + e.message);
                 }
             };
-            xhr.open("GET", url, true);
-            xhr.send();
+            xhr.open(options ? "POST" : "GET", url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(options));
         };
         return API;
     }());

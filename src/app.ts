@@ -1,6 +1,7 @@
 import restify = require('restify');
 import builder = require('botbuilder');
 import { DocumentationAPI } from './APIs/DocumentationAPI';
+import { PlaygroundAPI } from './APIs/PlaygroundAPI';
 import { SearchResults } from './APIS/SearchResults'
 
 //=========================================================
@@ -78,7 +79,7 @@ bot.dialog('/GetDocumentation', function (session, args) {
                                 "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
                                 "Documentation",
                                 "You can learn about '" + frameworkElement.entity + "' here:",
-                                results)
+                                results);
             session.send(msg);            
         });
     }
@@ -89,7 +90,23 @@ bot.dialog('/GetDocumentation', function (session, args) {
     session.endDialog();
 });
 
-bot.dialog('/GetCodeSample', function (session) {
+bot.dialog('/GetCodeSample', function (session, args) {
     session.send("Get code sample");
+    var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
+
+    if(frameworkElement){
+        PlaygroundAPI.search(frameworkElement.entity, (results) => {
+            var msg = buildSearchResultCard(session, 
+                                "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
+                                "Code",
+                                "You see code about '" + frameworkElement.entity + "' here:",
+                                results);
+            session.send(msg);            
+        });
+    }
+    else {
+        session.send("didnt get that.")
+    }
+
     session.endDialog();
 });

@@ -1,4 +1,0 @@
-## Overview - babylonjsbot
-
-(TBD)
-

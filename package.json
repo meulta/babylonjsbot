@@ -1,6 +1,6 @@
 {
   "name": "babylonjsbot",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "app.js",
   "dependencies": {
@@ -12,7 +12,8 @@
     "typescript": "^2.0.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "build": "npm install && tsc"
   },
   "author": "Etienne Margraff (@meulta)",
   "license": "MIT"

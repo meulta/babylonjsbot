@@ -10,7 +10,7 @@ export module DocumentationAPI {
             for(var result of results.results){
                 var res = new SearchResults.SearchResult();
                 res.name = result.name;
-                res.url = result.url;
+                res.url = result.url.replace("http", "https");
                 searchResults.push(res);
             }
 

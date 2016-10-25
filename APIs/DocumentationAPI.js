@@ -11,7 +11,7 @@ var DocumentationAPI;
                 var result = _a[_i];
                 var res = new SearchResults_1.SearchResults.SearchResult();
                 res.name = result.name;
-                res.url = result.url;
+                res.url = result.url.replace("http", "https");
                 searchResults.push(res);
             }
             done(searchResults);

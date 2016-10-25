@@ -58,7 +58,7 @@ bot.dialog('/Hello', function (session) {
     session.endDialog();
 });
 bot.dialog('/GetDocumentation', function (session, args) {
-    session.send("Get documentation");
+    session.send("I think we have documentation about that. Wait a minute.");
     var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
     if (frameworkElement) {
         DocumentationAPI_1.DocumentationAPI.search(frameworkElement.entity, function (results) {
@@ -72,7 +72,7 @@ bot.dialog('/GetDocumentation', function (session, args) {
     session.endDialog();
 });
 bot.dialog('/GetCodeSample', function (session, args) {
-    session.send("Get code sample");
+    session.send("Let me get some code sample about this!");
     var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
     if (frameworkElement) {
         PlaygroundAPI_1.PlaygroundAPI.search(frameworkElement.entity, function (results) {

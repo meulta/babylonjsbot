@@ -109,8 +109,11 @@ bot.dialog('/GetCodeSample', [
         var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
         if (frameworkElement) {
             PlaygroundAPI_1.PlaygroundAPI.search(frameworkElement.entity, function (results) {
-                var msg = buildSearchResultCarousel(session, "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", results);
-                session.send(msg);
+                // var msg = buildSearchResultCarousel(session, 
+                //                     "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
+                //                     results);
+                // session.send(msg);    
+                session.send("Found this: \n\n" + results[0].code[0].replace(/\r\n/g, "\n\n"));
             });
             session.endDialog();
         }

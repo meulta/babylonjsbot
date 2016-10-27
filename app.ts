@@ -139,10 +139,13 @@ bot.dialog('/GetCodeSample', [
 
             if(frameworkElement){
                 PlaygroundAPI.search(frameworkElement.entity, (results) => {
-                    var msg = buildSearchResultCarousel(session, 
-                                        "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
-                                        results);
-                    session.send(msg);            
+                    // var msg = buildSearchResultCarousel(session, 
+                    //                     "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
+                    //                     results);
+                    // session.send(msg);    
+
+                session.send("Found this: \r\n" + results[0].code[0].replace(/\r\n/g, ""));
+                            
                 });
                 session.endDialog();
             }

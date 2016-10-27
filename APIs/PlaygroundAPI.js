@@ -8,7 +8,7 @@ var PlaygroundAPI;
             search: what,
             page: 0,
             pageSize: 20,
-            includePayload: false
+            includePayload: true
         };
         Helpers_1.Helpers.API.DownloadJson("http://babylonjs-api.azurewebsites.net/api/search", function (results) {
             var searchResults = [];
@@ -17,11 +17,16 @@ var PlaygroundAPI;
             var lastSnippetId = "";
             for (var _i = 0, _a = results.snippets; _i < _a.length; _i++) {
                 var snippet = _a[_i];
+                var jsonPaylod = snippet.JsonPayload.replace(/\\\"/g, "\"")
+                    .replace(/\\r\\n/g, "\r\n")
+                    .replace(/\\t/g, "\t")
+                    .match(new RegExp("((\\r\\n)((?!\\r\\n).)*){2}" + what + "(((?!\\r\\n).)*(\\r\\n)){2}", "g"));
                 if (snippet.Id !== lastSnippetId) {
                     var res = new SearchResults_1.SearchResults.SearchResult();
                     res.name = "Snippet " + snippet.Id;
-                    res.url = "https://www.babylonjs-playground.com/#" + snippet.Id,
-                        searchResults.push(res);
+                    res.url = "https://www.babylonjs-playground.com/#" + snippet.Id;
+                    res.code = jsonPaylod ? jsonPaylod[0] : "Click on the link. Sample line not found.";
+                    searchResults.push(res);
                     lastSnippetId = snippet.Id;
                 }
             }

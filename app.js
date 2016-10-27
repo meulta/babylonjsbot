@@ -4,6 +4,11 @@ var builder = require('botbuilder');
 var DocumentationAPI_1 = require('./APIs/DocumentationAPI');
 var PlaygroundAPI_1 = require('./APIs/PlaygroundAPI');
 //=========================================================
+// Vorlon.js
+//=========================================================
+var vorlonWrapper = require("vorlon-node-wrapper");
+vorlonWrapper.start("http://localhost:1337", "default", false);
+//=========================================================
 // Bot Setup
 //=========================================================
 // Setup Restify Server
@@ -40,7 +45,7 @@ var buildSearchResultCard = function (session, imageUrl, title, description, res
         heroCard.title(title);
     }
     if (title) {
-        heroCard.title(description);
+        heroCard.text(description);
     }
     var count = 1;
     var heroCardButtons = [];
@@ -53,12 +58,38 @@ var buildSearchResultCard = function (session, imageUrl, title, description, res
     heroCard.buttons(heroCardButtons);
     return msg;
 };
+var buildSearchResultCarousel = function (session, imageUrl, results) {
+    var msg = new builder.Message(session).textFormat(builder.TextFormat.xml);
+    for (var i = 0; i < results.length; i++) {
+        var heroCard = new builder.HeroCard(session);
+        var result = results[i];
+        if (imageUrl) {
+            heroCard.images([
+                builder.CardImage.create(session, imageUrl)
+            ]);
+        }
+        if (result.name) {
+            heroCard.title(result.name);
+        }
+        if (result.code) {
+            heroCard.text(result.code);
+        }
+        var heroCardButtons = [];
+        heroCardButtons.push(builder.CardAction.openUrl(session, result.url, "open"));
+        heroCard.buttons(heroCardButtons);
+        msg.addAttachment(heroCard);
+        if (i >= 4)
+            break;
+    }
+    msg.attachmentLayout("carousel");
+    return msg;
+};
 bot.dialog('/Hello', function (session) {
     session.send("Hello I am the **Babylon.js bot**! \n\n I can talk to you about 3D ! Ask me how to create 'lights', for exemple.");
     session.endDialog();
 });
 bot.dialog('/GetDocumentation', function (session, args) {
-    session.send("I think we have documentation about that. Wait a minute.");
+    session.send("Get documentation");
     var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
     if (frameworkElement) {
         DocumentationAPI_1.DocumentationAPI.search(frameworkElement.entity, function (results) {
@@ -71,17 +102,28 @@ bot.dialog('/GetDocumentation', function (session, args) {
     }
     session.endDialog();
 });
-bot.dialog('/GetCodeSample', function (session, args) {
-    session.send("Let me get some code sample about this!");
-    var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
-    if (frameworkElement) {
-        PlaygroundAPI_1.PlaygroundAPI.search(frameworkElement.entity, function (results) {
-            var msg = buildSearchResultCard(session, "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", "Code", "You see code about '" + frameworkElement.entity + "' here:", results);
-            session.send(msg);
-        });
+bot.dialog('/GetCodeSample', [
+    function (session, args, next) {
+        session.send("Let me see if I can find code samples for you.");
+        var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
+        if (frameworkElement) {
+            PlaygroundAPI_1.PlaygroundAPI.search(frameworkElement.entity, function (results) {
+                var msg = buildSearchResultCarousel(session, "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", results);
+                session.send(msg);
+            });
+            session.endDialog();
+        }
+        else {
+            builder.Prompts.text(session, "I understood you want a code sample, can you tell me on which subject?");
+        }
+    },
+    function (session, results) {
+        if (results.response) {
+            PlaygroundAPI_1.PlaygroundAPI.search(results.response, function (res) {
+                var msg = buildSearchResultCard(session, "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", "Code", "You see code about '" + results.response + "' here:", res);
+                session.send(msg);
+            });
+        }
+        session.endDialog();
     }
-    else {
-        session.send("didnt get that.");
-    }
-    session.endDialog();
-});
+]);

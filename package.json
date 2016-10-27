@@ -9,7 +9,8 @@
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.3",
+    "vorlon-node-wrapper": "0.0.3"
   },
   "scripts": {
     "start": "node app.js",

@@ -5,6 +5,13 @@ import { PlaygroundAPI } from './APIs/PlaygroundAPI';
 import { SearchResults } from './APIS/SearchResults'
 
 //=========================================================
+// Vorlon.js
+//=========================================================
+
+var vorlonWrapper = require("vorlon-node-wrapper");
+vorlonWrapper.start("http://localhost:1337","default", false);
+
+//=========================================================
 // Bot Setup
 //=========================================================
 
@@ -50,7 +57,7 @@ var buildSearchResultCard = function(session, imageUrl, title, description, resu
     }
 
     if(title){
-        heroCard.title(description); 
+        heroCard.text(description); 
     }
 
     var count = 1;
@@ -61,6 +68,40 @@ var buildSearchResultCard = function(session, imageUrl, title, description, resu
     }
     heroCard.buttons(heroCardButtons);
 
+    return msg;
+}
+
+var buildSearchResultCarousel = function(session, imageUrl, results:SearchResults.SearchResult[]): builder.Message{
+    var msg = new builder.Message(session).textFormat(builder.TextFormat.xml);
+
+    for(var i = 0; i < results.length; i++){
+        var heroCard = new builder.HeroCard(session);
+        var result = results[i];
+
+        if(imageUrl){
+            heroCard.images([
+                builder.CardImage.create(session, imageUrl)
+            ]);
+        }
+
+        if(result.name){
+            heroCard.title(result.name); 
+        }
+
+        if(result.code){
+            heroCard.text(result.code); 
+        }
+
+        var heroCardButtons = [];
+        heroCardButtons.push(builder.CardAction.openUrl(session, result.url, "open"));
+        heroCard.buttons(heroCardButtons);
+        
+        msg.addAttachment(heroCard);
+
+        if(i >= 4) break;
+    }
+
+    msg.attachmentLayout("carousel");
     return msg;
 }
 
@@ -90,23 +131,35 @@ bot.dialog('/GetDocumentation', function (session, args) {
     session.endDialog();
 });
 
-bot.dialog('/GetCodeSample', function (session, args) {
-    session.send("Get code sample");
-    var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
+bot.dialog('/GetCodeSample', [
+     function (session, args, next) {
+            session.send("Let me see if I can find code samples for you.");
+            var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
 
-    if(frameworkElement){
-        PlaygroundAPI.search(frameworkElement.entity, (results) => {
-            var msg = buildSearchResultCard(session, 
-                                "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
-                                "Code",
-                                "You see code about '" + frameworkElement.entity + "' here:",
-                                results);
-            session.send(msg);            
-        });
-    }
-    else {
-        session.send("didnt get that.")
-    }
-
-    session.endDialog();
-});
+            if(frameworkElement){
+                PlaygroundAPI.search(frameworkElement.entity, (results) => {
+                    var msg = buildSearchResultCarousel(session, 
+                                        "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
+                                        results);
+                    session.send(msg);            
+                });
+                session.endDialog();
+            }
+            else {
+                builder.Prompts.text(session, "I understood you want a code sample, can you tell me on which subject?");
+            }
+        },
+        function (session, results) {
+            if (results.response) {
+                PlaygroundAPI.search(results.response, (res) => {
+                    var msg = buildSearchResultCard(session, 
+                                        "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
+                                        "Code",
+                                        "You see code about '" + results.response + "' here:",
+                                        res);
+                    session.send(msg);            
+                });
+            }
+            session.endDialog();
+        }
+    ]);

@@ -7,20 +7,28 @@ export module PlaygroundAPI {
                     search: what,
                     page: 0,
                     pageSize: 20,
-                    includePayload: false
+                    includePayload: true
                 };
 
         Helpers.API.DownloadJson(`http://babylonjs-api.azurewebsites.net/api/search`, (results:any) => {
             var searchResults:SearchResults.SearchResult[] = [];
             results = JSON.parse(results);
 
+
             //avoid duplicate (multiple versions in the search results)
             var lastSnippetId:string = "";
             for(var snippet of results.snippets){
+                
+                var jsonPaylod = snippet.JsonPayload.replace(/\\\"/g, "\"")
+                                                    .replace(/\\r\\n/g, "\r\n")
+                                                    .replace(/\\t/g, "\t")
+                                                    .match(new RegExp("((\\r\\n)((?!\\r\\n).)*){2}" + what + "(((?!\\r\\n).)*(\\r\\n)){2}", "g"));
+                
                 if(snippet.Id !== lastSnippetId){
                     var res = new SearchResults.SearchResult();
                     res.name = "Snippet " + snippet.Id;
-                    res.url = "https://www.babylonjs-playground.com/#" + snippet.Id,
+                    res.url = "https://www.babylonjs-playground.com/#" + snippet.Id;
+                    res.code = jsonPaylod;
                     searchResults.push(res);
                     lastSnippetId = snippet.Id;
                 }

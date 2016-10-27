@@ -7,7 +7,7 @@ var PlaygroundAPI;
         var options = {
             search: what,
             page: 0,
-            pageSize: 20,
+            pageSize: 80,
             includePayload: true
         };
         Helpers_1.Helpers.API.DownloadJson("http://babylonjs-api.azurewebsites.net/api/search", function (results) {

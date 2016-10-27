@@ -78,11 +78,11 @@ var buildSearchResultCarousel = function(session, imageUrl, results:SearchResult
         var heroCard = new builder.HeroCard(session);
         var result = results[i];
 
-        if(imageUrl){
-            heroCard.images([
-                builder.CardImage.create(session, imageUrl)
-            ]);
-        }
+        // if(imageUrl){
+        //     heroCard.images([
+        //         builder.CardImage.create(session, imageUrl)
+        //     ]);
+        // }
 
         if(result.name){
             heroCard.title(result.name); 
@@ -153,10 +153,8 @@ bot.dialog('/GetCodeSample', [
         function (session, results) {
             if (results.response) {
                 PlaygroundAPI.search(results.response, (res) => {
-                    var msg = buildSearchResultCard(session, 
+                    var msg = buildSearchResultCarousel(session, 
                                         "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
-                                        "Code",
-                                        "You see code about '" + results.response + "' here:",
                                         res);
                     session.send(msg);            
                 });

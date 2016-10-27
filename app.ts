@@ -134,6 +134,7 @@ bot.dialog('/GetDocumentation', function (session, args) {
 bot.dialog('/GetCodeSample', [
      function (session, args, next) {
             session.send("Let me see if I can find code samples for you.");
+            session.sendTyping();
             var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
 
             if(frameworkElement){

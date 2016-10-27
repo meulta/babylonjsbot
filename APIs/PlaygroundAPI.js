@@ -25,7 +25,7 @@ var PlaygroundAPI;
                     var res = new SearchResults_1.SearchResults.SearchResult();
                     res.name = "Snippet " + snippet.Id;
                     res.url = "https://www.babylonjs-playground.com/#" + snippet.Id;
-                    res.code = jsonPaylod ? jsonPaylod[0] : "Click on the link. Sample line not found.";
+                    res.code = jsonPaylod;
                     searchResults.push(res);
                     lastSnippetId = snippet.Id;
                 }

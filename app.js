@@ -113,7 +113,7 @@ bot.dialog('/GetCodeSample', [
                 //                     "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
                 //                     results);
                 // session.send(msg);    
-                session.send("Found this: \n\n" + results[0].code[0].replace(/\r\n/g, "\n\n"));
+                session.send("Found this: \n\n\n\n`" + results[0].code[0].replace(/\r\n/g, "\n")) + "`";
             });
             session.endDialog();
         }

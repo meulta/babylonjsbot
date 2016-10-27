@@ -144,7 +144,8 @@ bot.dialog('/GetCodeSample', [
                     //                     results);
                     // session.send(msg);    
 
-                session.send("Found this: \r\n" + results[0].code[0].replace(/\r\n/g, ""));
+                session.send("Found this: \n\n\n\n`" + results[0].code[0].replace(/\r\n/g, "\n")) + "`";
+
                             
                 });
                 session.endDialog();

@@ -68,9 +68,9 @@ var buildSearchResultCarousel = function (session, imageUrl, results) {
         //         builder.CardImage.create(session, imageUrl)
         //     ]);
         // }
-        if (result.name) {
-            heroCard.title(result.name);
-        }
+        // if(result.name){
+        //     heroCard.title(result.name); 
+        // }
         if (result.code) {
             heroCard.text(result.code);
         }

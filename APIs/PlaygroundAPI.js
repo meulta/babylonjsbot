@@ -24,7 +24,7 @@ var PlaygroundAPI;
                 if (snippet.Id !== lastSnippetId) {
                     var res = new SearchResults_1.SearchResults.SearchResult();
                     res.name = "Snippet " + snippet.Id;
-                    res.url = "https://www.babylonjs-playground.com/#" + snippet.Id;
+                    res.url = "http://www.babylonjs-playground.com/#" + snippet.Id;
                     res.code = jsonPaylod;
                     searchResults.push(res);
                     lastSnippetId = snippet.Id;

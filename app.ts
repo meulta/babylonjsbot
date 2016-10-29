@@ -41,70 +41,6 @@ intents.matches('Hello', '/Hello');
 intents.matches('GetDocumentation', '/GetDocumentation');
 intents.matches('GetCodeSample', '/GetCodeSample');
 
-var buildSearchResultCard = function(session, imageUrl, title, description, results:SearchResults.SearchResult[]): builder.Message{
-    var msg = new builder.Message(session).textFormat(builder.TextFormat.xml);
-    var heroCard = new builder.HeroCard(session)
-    msg.addAttachment(heroCard);
-
-    if(imageUrl){
-        heroCard.images([
-            builder.CardImage.create(session, imageUrl)
-        ]);
-    }
-
-    if(title){
-        heroCard.title(title); 
-    }
-
-    if(title){
-        heroCard.text(description); 
-    }
-
-    var count = 1;
-    var heroCardButtons = [];
-    for(var searchResult of results){
-        heroCardButtons.push(builder.CardAction.openUrl(session, searchResult.url, searchResult.name));
-        if(count++ > 2) break;
-    }
-    heroCard.buttons(heroCardButtons);
-
-    return msg;
-}
-
-var buildSearchResultCarousel = function(session, imageUrl, results:SearchResults.SearchResult[]): builder.Message{
-    var msg = new builder.Message(session).textFormat(builder.TextFormat.xml);
-
-    for(var i = 0; i < results.length; i++){
-        var heroCard = new builder.HeroCard(session);
-        var result = results[i];
-
-        // if(imageUrl){
-        //     heroCard.images([
-        //         builder.CardImage.create(session, imageUrl)
-        //     ]);
-        // }
-
-        // if(result.name){
-        //     heroCard.title(result.name); 
-        // }
-
-        if(result.code){
-            heroCard.text(result.code); 
-        }
-
-        var heroCardButtons = [];
-        heroCardButtons.push(builder.CardAction.openUrl(session, result.url, "open"));
-        heroCard.buttons(heroCardButtons);
-        
-        msg.addAttachment(heroCard);
-
-        if(i >= 4) break;
-    }
-
-    msg.attachmentLayout("carousel");
-    return msg;
-}
-
 bot.dialog('/Hello', function (session) {
     session.send("Hello I am the **Babylon.js bot**! \n\n I can talk to you about 3D ! Ask me how to create 'lights', for exemple.");
     session.endDialog();
@@ -116,12 +52,7 @@ bot.dialog('/GetDocumentation', function (session, args) {
 
     if(frameworkElement){
         DocumentationAPI.search(frameworkElement.entity, (results) => {
-            var msg = buildSearchResultCard(session, 
-                                "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
-                                "Documentation",
-                                "You can learn about '" + frameworkElement.entity + "' here:",
-                                results);
-            session.send(msg);            
+            session.send("Found this: \n\n\n\n`" + results[0].code[0].replace(/\r\n/g, "\n\n")) + "`";
         });
     }
     else {
@@ -139,14 +70,7 @@ bot.dialog('/GetCodeSample', [
 
             if(frameworkElement){
                 PlaygroundAPI.search(frameworkElement.entity, (results) => {
-                    // var msg = buildSearchResultCarousel(session, 
-                    //                     "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
-                    //                     results);
-                    // session.send(msg);    
-
-                session.send("Found this: \n\n\n\n`" + results[0].code[0].replace(/\r\n/g, "\n\n")) + "`";
-
-                            
+                    session.send("Found this: \n\n\n\n```" + results[0].code[0].replace(/\r\n/g, "")) + "```";
                 });
                 session.endDialog();
             }
@@ -157,10 +81,7 @@ bot.dialog('/GetCodeSample', [
         function (session, results) {
             if (results.response) {
                 PlaygroundAPI.search(results.response, (res) => {
-                    var msg = buildSearchResultCarousel(session, 
-                                        "http://html5gamedevelopment.com/wp-content/uploads/2016/06/babylonjs.png", 
-                                        res);
-                    session.send(msg);            
+                    session.send("Found this: \n\n\n\n`" + results[0].code[0].replace(/\r\n/g, "\n\n")) + "`";
                 });
             }
             session.endDialog();

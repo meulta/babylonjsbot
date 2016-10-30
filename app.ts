@@ -64,15 +64,19 @@ bot.dialog('/GetDocumentation', function (session, args) {
 
 bot.dialog('/GetCodeSample', [
     function (session, args, next) {
-        session.send("Let me see if I can find code samples for you.");
         session.sendTyping();
         var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
 
         if(frameworkElement){
             PlaygroundAPI.search(frameworkElement.entity, (results) => {
-                session.send("Found this:");
-                session.send(results[0].code[0].replace(/\r\n/g, "\n\n").replace(/  +/g, ' '));
-                session.send("If you want to take a look at the full sample : [" + results[0].name + "](" + results[0].url + ")");
+                if(results && results.length > 0) {
+                    session.send("I found these lines that someone wrote:");
+                    session.send(results[0].code);
+                    session.send("If you want to take a look at the full sample : [" + results[0].name + "](" + results[0].url + ")");
+                }
+                else {
+                    session.send("I do not know that...");
+                }
             });
             session.endDialog();
         }
@@ -83,7 +87,8 @@ bot.dialog('/GetCodeSample', [
     function (session, results) {
         if (results.response) {
             PlaygroundAPI.search(results.response, (res) => {
-                session.send("Found this: \n\n\n\n" + results[0].code[0].replace(/\r\n/g, "\n\n")) + "`";
+                if(results && results.length)
+                    session.send(results[0].code);
             });
         }
         session.endDialog();

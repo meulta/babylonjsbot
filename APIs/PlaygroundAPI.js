@@ -17,7 +17,7 @@ var PlaygroundAPI;
             var lastSnippetId = "";
             for (var _i = 0, _a = results.snippets; _i < _a.length; _i++) {
                 var snippet = _a[_i];
-                var jsonPaylod = snippet.JsonPayload.replace(/\\\"/g, "\"")
+                var code = snippet.JsonPayload.replace(/\\\"/g, "\"")
                     .replace(/\\r\\n/g, "\r\n")
                     .replace(/\\t/g, "\t")
                     .match(new RegExp("((\\r\\n)((?!\\r\\n).)*){2}" + what + "(((?!\\r\\n).)*(\\r\\n)){2}", "g"));
@@ -25,7 +25,7 @@ var PlaygroundAPI;
                     var res = new SearchResults_1.SearchResults.SearchResult();
                     res.name = "Snippet " + snippet.Id;
                     res.url = "http://www.babylonjs-playground.com/#" + snippet.Id;
-                    res.code = jsonPaylod;
+                    res.code = code && code.length > 0 ? code[0].replace(/\r\n/g, "\n\n").replace(/  +/g, ' ') : null;
                     searchResults.push(res);
                     lastSnippetId = snippet.Id;
                 }

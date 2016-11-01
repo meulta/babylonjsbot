@@ -1,37 +1,44 @@
 "use strict";
-var Helpers_1 = require('./Helpers');
-var SearchResults_1 = require('./SearchResults');
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments)).next());
+    });
+};
+const Helpers_1 = require('../Common/Helpers');
+const SearchResults_1 = require('./SearchResults');
 var PlaygroundAPI;
 (function (PlaygroundAPI) {
-    function search(what, done) {
-        var options = {
-            search: what,
-            page: 0,
-            pageSize: 80,
-            includePayload: true
-        };
-        Helpers_1.Helpers.API.DownloadJson("http://babylonjs-api.azurewebsites.net/api/search", function (results) {
-            var searchResults = [];
-            results = JSON.parse(results);
+    function search(what) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var options = {
+                search: what,
+                page: 0,
+                pageSize: 1,
+                includePayload: true,
+                skipPreviousSnippetVersions: true
+            };
+            var jsonAsString = yield Helpers_1.Helpers.API.DownloadJson(`http://localhost:41760/api/search`, true, options);
+            var searchResults = new SearchResults_1.SearchResults.SearchResult();
+            var results = JSON.parse(jsonAsString);
             //avoid duplicate (multiple versions in the search results)
-            var lastSnippetId = "";
-            for (var _i = 0, _a = results.snippets; _i < _a.length; _i++) {
-                var snippet = _a[_i];
+            if (results.snippets && results.snippets.length > 0) {
+                var snippet = results.snippets[0];
                 var code = snippet.JsonPayload.replace(/\\\"/g, "\"")
                     .replace(/\\r\\n/g, "\r\n")
                     .replace(/\\t/g, "\t")
                     .match(new RegExp("((\\r\\n)((?!\\r\\n).)*){2}" + what + "(((?!\\r\\n).)*(\\r\\n)){2}", "g"));
-                if (snippet.Id !== lastSnippetId) {
-                    var res = new SearchResults_1.SearchResults.SearchResult();
-                    res.name = "Snippet " + snippet.Id;
-                    res.url = "http://www.babylonjs-playground.com/#" + snippet.Id;
-                    res.code = code && code.length > 0 ? code[0].replace(/\r\n/g, "\n\n").replace(/  +/g, ' ') : null;
-                    searchResults.push(res);
-                    lastSnippetId = snippet.Id;
-                }
+                var res = new SearchResults_1.SearchResults.SearchResult();
+                searchResults.name = "Snippet " + snippet.Id;
+                searchResults.url = "http://www.babylonjs-playground.com/#" + snippet.Id;
+                searchResults.code = code && code.length > 0 ? code[0].replace(/\r\n/g, "\n\n").replace(/  +/g, ' ') : null;
             }
-            done(searchResults);
-        }, true, options);
+            return new Promise(resolve => {
+                resolve(searchResults);
+            });
+        });
     }
     PlaygroundAPI.search = search;
 })(PlaygroundAPI = exports.PlaygroundAPI || (exports.PlaygroundAPI = {}));

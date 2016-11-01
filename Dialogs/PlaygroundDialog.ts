@@ -1,4 +1,5 @@
 import { PlaygroundAPI } from '../APIs/PlaygroundAPI'
+import { Helpers } from '../Common/Helpers'
 import builder = require('botbuilder');
 
 export module PlaygroundDialog {
@@ -6,33 +7,31 @@ export module PlaygroundDialog {
         intents.matches('GetCodeSample', '/GetCodeSample');
 
         bot.dialog('/GetCodeSample', [
-            function (session, args, next) {
+            async function (session, args, next) {
                 session.sendTyping();
                 var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
 
                 if(frameworkElement){
-                    PlaygroundAPI.search(frameworkElement.entity, (results) => {
-                        if(results && results.length > 0) {
-                            session.send("I found these lines that someone wrote:");
-                            session.send(results[0].code);
-                            session.send("If you want to take a look at the full sample : [" + results[0].name + "](" + results[0].url + ")");
-                        }
-                        else {
-                            session.send("I do not know that...");
-                        }
-                    });
+                    var result = await PlaygroundAPI.search(frameworkElement.entity);
+                    if(result) {
+                        session.send("playground-foundthis");
+                        session.send(result.code);
+                        session.send("playground-fullsample", result.name, result.url);
+                    }
+                    else {
+                        session.send("all-idontknow");
+                    }
                     session.endDialog();
                 }
                 else {
-                    builder.Prompts.text(session, "I understood you want a code sample, can you tell me on which subject?");
+                    builder.Prompts.text(session, "playground-entitynotfound");
                 }
             },
-            function (session, results) {
+            async function (session, results) {
                 if (results.response) {
-                    PlaygroundAPI.search(results.response, (res) => {
-                        if(results && results.length)
+                    var result = await PlaygroundAPI.search(results.response);
+                    if(result)
                             session.send(results[0].code);
-                    });
                 }
                 session.endDialog();
             }

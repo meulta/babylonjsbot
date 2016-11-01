@@ -3,7 +3,7 @@ import builder = require('botbuilder');
 import { DocumentationDialog } from './Dialogs/DocumentationDialog';
 import { PlaygroundDialog } from './Dialogs/PlaygroundDialog';
 import { HelloDialog } from './Dialogs/HelloDialog';
-import { SearchResults } from './APIS/SearchResults'
+import { SearchResults } from './APIS/SearchResults';
 
 //=========================================================
 // Vorlon.js
@@ -27,7 +27,13 @@ var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
+
+var bot = new builder.UniversalBot(connector,{
+    localizerSettings: { 
+        defaultLocale: "en" 
+    }
+});
+
 server.post('/api/messages', connector.listen());
 
 //=========================================================
@@ -38,6 +44,6 @@ var babylonRecognizer = new builder.LuisRecognizer('https://api.projectoxford.ai
 var intents = new builder.IntentDialog({ recognizers: [babylonRecognizer] });
 bot.dialog('/', intents);
 
-PlaygroundDialog.add(bot, intents);
 DocumentationDialog.add(bot, intents);
+PlaygroundDialog.add(bot, intents);
 HelloDialog.add(bot, intents);

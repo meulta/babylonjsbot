@@ -1,20 +1,19 @@
-import { Helpers } from './Helpers'
-import { SearchResults } from './SearchResults'
+import { Helpers } from '../Common/Helpers'
+import { SearchResults } from './SearchResults'  
 
 export module DocumentationAPI {
-    export function search(what: string, done: (jsonResult:SearchResults.SearchResult[]) => any): void {
-        Helpers.API.DownloadJson(`http://doc.babylonjs.com/search/?q=${what}&renderType=json`, (results:any) => {
-            var searchResults:SearchResults.SearchResult[] = [];
-            results = JSON.parse(results);
+    export async function search(what: string): Promise<SearchResults.SearchResult> {
+        var resultJson = await Helpers.API.DownloadJson(`http://doc.babylonjs.com/search/?q=${what}&renderType=json`);
+        var searchResult:SearchResults.SearchResult = new SearchResults.SearchResult();
+        var results = JSON.parse(resultJson);
 
-            for(var result of results.results){
-                var res = new SearchResults.SearchResult();
-                res.name = result.name;
-                res.url = result.url.replace("http", "https");
-                searchResults.push(res);
-            }
-
-            done(searchResults);
+        if(results && results.length > 0){
+            var res = new SearchResults.SearchResult();
+            searchResult.name = searchResult.name;
+            searchResult.url = searchResult.url.replace("http", "https");
+        }
+        return new Promise<SearchResults.SearchResult>(resolve => {
+            resolve(searchResult);            
         });
     }
 }

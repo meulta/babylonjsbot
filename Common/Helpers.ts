@@ -22,4 +22,8 @@ export module Helpers {
             });
         }
     }
+
+    export enum SearchType { "code", "documentation" };
+
+    
 }

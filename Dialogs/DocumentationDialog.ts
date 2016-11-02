@@ -4,9 +4,7 @@ import builder = require('botbuilder');
 
 export module DocumentationDialog {
     export function add(bot:builder.UniversalBot, intents:builder.IntentDialog): void {
-        intents.matches('GetDocumentation', '/GetDocumentation');
-
-        bot.dialog('/GetDocumentation', async function (session, args) {
+        intents.matches('GetDocumentation', async function (session, args) {
             session.send("Get documentation");
             var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
 

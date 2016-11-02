@@ -3,5 +3,8 @@
     "playground-fullsample": ["If you want to take a look at the full sample : [%s](%s)"],
     "playground-foundthis": ["I found these lines that someone wrote:"],
     "playground-entitynotfound": ["I understood you want a code sample, can you tell me on which subject?", "I will get you a code sample, tell me the subject, I am not sure I get it."],
-    "all-idontknow": ["I do not know that...", "Never heard of it!", "I don't know, you should ask on the forum"]
+    "playground-alreadysearched-foundthis": ["You already asked for this, I guess you want another sample? Here it is", "Did not find what you wanted in the previous one? Here is another :)"],
+    "all-idontknow": ["I do not know that...", "Never heard of it!", "I don't know, you should ask on the forum"],
+    "other-content-letmesee": ["Let me see what I can find", "Ok I will have a look, wait a minute", "Sure thing!"],
+    "other-content-noprevious": ["I am not sure what you really want. You did not ask me anything yet!"]
 }

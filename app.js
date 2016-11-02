@@ -4,6 +4,7 @@ const builder = require('botbuilder');
 const DocumentationDialog_1 = require('./Dialogs/DocumentationDialog');
 const PlaygroundDialog_1 = require('./Dialogs/PlaygroundDialog');
 const HelloDialog_1 = require('./Dialogs/HelloDialog');
+const AnotherOneDialog_1 = require('./Dialogs/AnotherOneDialog');
 //=========================================================
 // Vorlon.js
 //=========================================================
@@ -37,3 +38,4 @@ bot.dialog('/', intents);
 DocumentationDialog_1.DocumentationDialog.add(bot, intents);
 PlaygroundDialog_1.PlaygroundDialog.add(bot, intents);
 HelloDialog_1.HelloDialog.add(bot, intents);
+AnotherOneDialog_1.AnotherOneDialog.add(bot, intents);

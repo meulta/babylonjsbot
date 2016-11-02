@@ -3,5 +3,6 @@ export module SearchResults {
         public url:string;
         public name:string;
         public code:string;
+        public nextPage:number;
     }
 }

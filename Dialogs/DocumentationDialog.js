@@ -12,8 +12,7 @@ const builder = require('botbuilder');
 var DocumentationDialog;
 (function (DocumentationDialog) {
     function add(bot, intents) {
-        intents.matches('GetDocumentation', '/GetDocumentation');
-        bot.dialog('/GetDocumentation', function (session, args) {
+        intents.matches('GetDocumentation', function (session, args) {
             return __awaiter(this, void 0, void 0, function* () {
                 session.send("Get documentation");
                 var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');

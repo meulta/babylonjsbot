@@ -31,4 +31,10 @@ var Helpers;
         }
     }
     Helpers.API = API;
+    (function (SearchType) {
+        SearchType[SearchType["code"] = 0] = "code";
+        SearchType[SearchType["documentation"] = 1] = "documentation";
+    })(Helpers.SearchType || (Helpers.SearchType = {}));
+    var SearchType = Helpers.SearchType;
+    ;
 })(Helpers = exports.Helpers || (exports.Helpers = {}));

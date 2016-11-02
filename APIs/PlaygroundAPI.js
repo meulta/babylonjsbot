@@ -11,16 +11,16 @@ const Helpers_1 = require('../Common/Helpers');
 const SearchResults_1 = require('./SearchResults');
 var PlaygroundAPI;
 (function (PlaygroundAPI) {
-    function search(what) {
+    function search(what, page = 0) {
         return __awaiter(this, void 0, void 0, function* () {
             var options = {
                 search: what,
-                page: 0,
+                page: page,
                 pageSize: 1,
                 includePayload: true,
                 skipPreviousSnippetVersions: true
             };
-            var jsonAsString = yield Helpers_1.Helpers.API.DownloadJson(`http://localhost:41760/api/search`, true, options);
+            var jsonAsString = yield Helpers_1.Helpers.API.DownloadJson(`http://babylonjs-api.azurewebsites.net/api/search`, true, options);
             var searchResults = new SearchResults_1.SearchResults.SearchResult();
             var results = JSON.parse(jsonAsString);
             //avoid duplicate (multiple versions in the search results)
@@ -34,6 +34,7 @@ var PlaygroundAPI;
                 searchResults.name = "Snippet " + snippet.Id;
                 searchResults.url = "http://www.babylonjs-playground.com/#" + snippet.Id;
                 searchResults.code = code && code.length > 0 ? code[0].replace(/\r\n/g, "\n\n").replace(/  +/g, ' ') : null;
+                searchResults.nextPage = page <= results.pageCount ? page + 1 : 0;
             }
             return new Promise(resolve => {
                 resolve(searchResults);

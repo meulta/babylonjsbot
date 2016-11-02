@@ -2,16 +2,16 @@ import { Helpers } from '../Common/Helpers'
 import { SearchResults } from './SearchResults'
 
 export module PlaygroundAPI {
-    export async function search(what: string): Promise<SearchResults.SearchResult> {
+    export async function search(what: string, page: number = 0): Promise<SearchResults.SearchResult> {
         var options = {
                     search: what,
-                    page: 0,
+                    page: page,
                     pageSize: 1,
                     includePayload: true,
                     skipPreviousSnippetVersions: true
                 };
 
-        var jsonAsString = await Helpers.API.DownloadJson(`http://localhost:41760/api/search`, true, options);
+        var jsonAsString = await Helpers.API.DownloadJson(`http://babylonjs-api.azurewebsites.net/api/search`, true, options);
         var searchResults = new SearchResults.SearchResult();
         var results = JSON.parse(jsonAsString);
 
@@ -27,6 +27,7 @@ export module PlaygroundAPI {
             searchResults.name = "Snippet " + snippet.Id;
             searchResults.url = "http://www.babylonjs-playground.com/#" + snippet.Id;
             searchResults.code = code && code.length > 0 ? code[0].replace(/\r\n/g, "\n\n").replace(/  +/g, ' ') : null;
+            searchResults.nextPage = page <= results.pageCount ? page + 1 : 0;
         }
 
         return new Promise<SearchResults.SearchResult>(resolve => {

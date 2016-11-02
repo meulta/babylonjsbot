@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const Helpers_1 = require('../Common/Helpers');
 const SearchResults_1 = require('./SearchResults');
-var PlaygroundAPI;
-(function (PlaygroundAPI) {
+var CodeAPI;
+(function (CodeAPI) {
     function search(what, page = 0) {
         return __awaiter(this, void 0, void 0, function* () {
             var options = {
@@ -41,5 +41,5 @@ var PlaygroundAPI;
             });
         });
     }
-    PlaygroundAPI.search = search;
-})(PlaygroundAPI = exports.PlaygroundAPI || (exports.PlaygroundAPI = {}));
+    CodeAPI.search = search;
+})(CodeAPI = exports.CodeAPI || (exports.CodeAPI = {}));

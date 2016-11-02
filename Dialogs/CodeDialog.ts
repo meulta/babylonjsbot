@@ -1,9 +1,9 @@
-import { PlaygroundAPI } from '../APIs/PlaygroundAPI'
+import { CodeAPI } from '../APIs/CodeAPI'
 import { Helpers } from '../Common/Helpers'
 import { DialogHandlers } from './DialogHandlers'
 import builder = require('botbuilder');
 
-export module PlaygroundDialog {
+export module CodeDialog {
     export function add(bot:builder.UniversalBot, intents:builder.IntentDialog): void {
         intents.matches('GetCodeSample', [
             async function (session, args, next) {
@@ -13,7 +13,7 @@ export module PlaygroundDialog {
                     DialogHandlers.sendCode(session, frameworkElement.entity);
                 }
                 else {
-                    builder.Prompts.text(session, "playground-entitynotfound");
+                    builder.Prompts.text(session, "code-entitynotfound");
                 }
             },
             async function (session, results) {

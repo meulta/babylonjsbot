@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const DialogHandlers_1 = require('./DialogHandlers');
 const builder = require('botbuilder');
-var PlaygroundDialog;
-(function (PlaygroundDialog) {
+var CodeDialog;
+(function (CodeDialog) {
     function add(bot, intents) {
         intents.matches('GetCodeSample', [
             function (session, args, next) {
@@ -20,7 +20,7 @@ var PlaygroundDialog;
                         DialogHandlers_1.DialogHandlers.sendCode(session, frameworkElement.entity);
                     }
                     else {
-                        builder.Prompts.text(session, "playground-entitynotfound");
+                        builder.Prompts.text(session, "code-entitynotfound");
                     }
                 });
             },
@@ -34,5 +34,5 @@ var PlaygroundDialog;
             }
         ]);
     }
-    PlaygroundDialog.add = add;
-})(PlaygroundDialog = exports.PlaygroundDialog || (exports.PlaygroundDialog = {}));
+    CodeDialog.add = add;
+})(CodeDialog = exports.CodeDialog || (exports.CodeDialog = {}));

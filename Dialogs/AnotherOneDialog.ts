@@ -1,4 +1,3 @@
-import { PlaygroundAPI } from '../APIs/PlaygroundAPI'
 import { Helpers } from '../Common/Helpers'
 import { DialogHandlers } from './DialogHandlers'
 import builder = require('botbuilder');

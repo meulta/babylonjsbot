@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const PlaygroundAPI_1 = require('../APIs/PlaygroundAPI');
+const CodeAPI_1 = require('../APIs/CodeAPI');
 const Helpers_1 = require('../Common/Helpers');
 var DialogHandlers;
 (function (DialogHandlers) {
@@ -28,13 +28,13 @@ var DialogHandlers;
                 searchPage = session.privateConversationData.lastSearchPage || 0;
             }
             if (!introSentence)
-                introSentence = searchPage == 0 ? "playground-foundthis" : "playground-alreadysearched-foundthis";
+                introSentence = searchPage == 0 ? "code-foundthis" : "code-alreadysearched-foundthis";
             session.sendTyping();
-            var result = yield PlaygroundAPI_1.PlaygroundAPI.search(text, searchPage);
+            var result = yield CodeAPI_1.CodeAPI.search(text, searchPage);
             if (result) {
                 session.send(introSentence);
                 session.send(result.code);
-                session.send("playground-fullsample", result.name, result.url);
+                session.send("code-fullsample", result.name, result.url);
                 session.privateConversationData.lastSearchType = Helpers_1.Helpers.SearchType.code;
                 session.privateConversationData.lastSearchText = text;
                 session.privateConversationData.lastSearchPage = result.nextPage;

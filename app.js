@@ -2,7 +2,7 @@
 const restify = require('restify');
 const builder = require('botbuilder');
 const DocumentationDialog_1 = require('./Dialogs/DocumentationDialog');
-const PlaygroundDialog_1 = require('./Dialogs/PlaygroundDialog');
+const CodeDialog_1 = require('./Dialogs/CodeDialog');
 const HelloDialog_1 = require('./Dialogs/HelloDialog');
 const AnotherOneDialog_1 = require('./Dialogs/AnotherOneDialog');
 //=========================================================
@@ -36,6 +36,6 @@ var babylonRecognizer = new builder.LuisRecognizer('https://api.projectoxford.ai
 var intents = new builder.IntentDialog({ recognizers: [babylonRecognizer] });
 bot.dialog('/', intents);
 DocumentationDialog_1.DocumentationDialog.add(bot, intents);
-PlaygroundDialog_1.PlaygroundDialog.add(bot, intents);
+CodeDialog_1.CodeDialog.add(bot, intents);
 HelloDialog_1.HelloDialog.add(bot, intents);
 AnotherOneDialog_1.AnotherOneDialog.add(bot, intents);

@@ -1,7 +1,7 @@
 import { Helpers } from '../Common/Helpers'
 import { SearchResults } from './SearchResults'
 
-export module PlaygroundAPI {
+export module CodeAPI {
     export async function search(what: string, page: number = 0): Promise<SearchResults.SearchResult> {
         var options = {
                     search: what,

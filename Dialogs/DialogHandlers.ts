@@ -1,4 +1,4 @@
-import { PlaygroundAPI } from '../APIs/PlaygroundAPI'
+import { CodeAPI } from '../APIs/CodeAPI'
 import { Helpers } from '../Common/Helpers'
 import builder = require('botbuilder');
 
@@ -22,15 +22,15 @@ export module DialogHandlers {
         }
        
         if(!introSentence)
-            introSentence = searchPage == 0 ? "playground-foundthis" : "playground-alreadysearched-foundthis";
+            introSentence = searchPage == 0 ? "code-foundthis" : "code-alreadysearched-foundthis";
 
         session.sendTyping();
-        var result = await PlaygroundAPI.search(text, searchPage);
+        var result = await CodeAPI.search(text, searchPage);
 
         if(result) {
             session.send(introSentence);
             session.send(result.code);
-            session.send("playground-fullsample", result.name, result.url);
+            session.send("code-fullsample", result.name, result.url);
             session.privateConversationData.lastSearchType = Helpers.SearchType.code;
             session.privateConversationData.lastSearchText = text;
             session.privateConversationData.lastSearchPage = result.nextPage;

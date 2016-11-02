@@ -1,7 +1,7 @@
 import restify = require('restify');
 import builder = require('botbuilder');
 import { DocumentationDialog } from './Dialogs/DocumentationDialog';
-import { PlaygroundDialog } from './Dialogs/PlaygroundDialog';
+import { CodeDialog } from './Dialogs/CodeDialog';
 import { HelloDialog } from './Dialogs/HelloDialog';
 import { AnotherOneDialog } from './Dialogs/AnotherOneDialog';
 import { SearchResults } from './APIS/SearchResults';
@@ -46,6 +46,6 @@ var intents = new builder.IntentDialog({ recognizers: [babylonRecognizer] });
 bot.dialog('/', intents);
 
 DocumentationDialog.add(bot, intents);
-PlaygroundDialog.add(bot, intents);
+CodeDialog.add(bot, intents);
 HelloDialog.add(bot, intents);
 AnotherOneDialog.add(bot, intents);

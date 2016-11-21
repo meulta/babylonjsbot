@@ -1,9 +1,15 @@
 {
     "greetings": ["Hello!" , "I am the babylon.js bot."],
-    "code-fullsample": ["If you want to take a look at the full sample : [%s](%s)"],
+    "code-fullsample": ["If you want to take a look at the full sample : [%s](%s)","Found this here : [%s](%s)"],
+    "code-fullsamplenocode": ["Here is a sample : [%s](%s)", "There is a sample with that in it : [%s](%s)"],
     "code-foundthis": ["I found these lines that someone wrote:"],
     "code-entitynotfound": ["I understood you want a code sample, can you tell me on which subject?", "I will get you a code sample, tell me the subject, I am not sure I get it."],
-    "code-alreadysearched-foundthis": ["You already asked for this, I guess you want another sample? Here it is", "Did not find what you wanted in the previous one? Here is another :)"],
+    "code-alreadysearched-foundthis": ["You already asked for this, I guess you want another sample :)", "Did not find what you wanted in the previous one? Here is another :)"],
+    "doc-linkwithabstract": ["%s If you want to read it : [%s](%s)"],
+    "doc-link": ["I do not know much but about this but try here: [%s](%s)", "I am not sure... I found this : [%s](%s)"],
+    "doc-foundthis": ["Here is a summary of what i found:"],
+    "doc-entitynotfound": ["I understood you want documentation, can you tell me on which subject?", "I will get you documentation, tell me the subject, I am not sure I get it."],
+    "doc-alreadysearched-foundthis": ["You already asked for this, I guess you want another documentation entry? Here it is", "Did not find what you wanted in the previous one?"],
     "all-idontknow": ["I do not know that...", "Never heard of it!", "I don't know, you should ask on the forum"],
     "other-content-letmesee": ["Let me see what I can find", "Ok I will have a look, wait a minute", "Sure thing!"],
     "other-content-noprevious": ["I am not sure what you really want. You did not ask me anything yet!"]

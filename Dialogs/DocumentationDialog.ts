@@ -1,24 +1,27 @@
-import { DocumentationAPI } from '../APIs/DocumentationAPI'
 import { Helpers } from '../Common/Helpers'
+import { DialogHandlers } from './DialogHandlers'
 import builder = require('botbuilder');
 
 export module DocumentationDialog {
     export function add(bot:builder.UniversalBot, intents:builder.IntentDialog): void {
-        intents.matches('GetDocumentation', async function (session, args) {
-            session.send("Get documentation");
+        intents.matches('GetDocumentation', [async function (session, args) {
             var frameworkElement = builder.EntityRecognizer.findEntity(args.entities, 'FrameworkElement');
 
             if(frameworkElement){
-                var result = await DocumentationAPI.search(frameworkElement.entity);
-                session.send("Found this:" + result.url);
-                
+                DialogHandlers.sendDocumentation(session, frameworkElement.entity);
             }
             else {
-                session.send("didnt get that.")
+                DialogHandlers.sendDocumentation(session);
             }
-
+                
             session.endDialog();
-        });
+        }, async function (session, results) {
+                if (results.response) {
+                    DialogHandlers.sendCode(session, results.response);
+                }
+                session.endDialog();
+            }
+        ]);
     }
 }
 

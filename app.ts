@@ -10,8 +10,8 @@ import { SearchResults } from './APIS/SearchResults';
 // Vorlon.js
 //=========================================================
 
-var vorlonWrapper = require("vorlon-node-wrapper");
-vorlonWrapper.start("http://localhost:1337","default", false);
+// var vorlonWrapper = require("vorlon-node-wrapper");
+// vorlonWrapper.start("http://localhost:1337","default", false);
 
 //=========================================================
 // Bot Setup

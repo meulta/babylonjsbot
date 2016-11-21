@@ -13,7 +13,7 @@ export module CodeDialog {
                     DialogHandlers.sendCode(session, frameworkElement.entity);
                 }
                 else {
-                    builder.Prompts.text(session, "code-entitynotfound");
+                    DialogHandlers.sendCode(session);
                 }
             },
             async function (session, results) {

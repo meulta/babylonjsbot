@@ -20,7 +20,7 @@ var CodeDialog;
                         DialogHandlers_1.DialogHandlers.sendCode(session, frameworkElement.entity);
                     }
                     else {
-                        builder.Prompts.text(session, "code-entitynotfound");
+                        DialogHandlers_1.DialogHandlers.sendCode(session);
                     }
                 });
             },

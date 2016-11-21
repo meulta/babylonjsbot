@@ -13,13 +13,16 @@ var DocumentationAPI;
 (function (DocumentationAPI) {
     function search(what, page = 1) {
         return __awaiter(this, void 0, void 0, function* () {
-            var resultJson = yield Helpers_1.Helpers.API.DownloadJson(`http://doc.babylonjs.com/search/?q=${what}&page=${page}&max=${1}&renderType=json`);
+            var resultJson = yield Helpers_1.Helpers.API.DownloadJson(`http://doc.babylonjs.com/search/?q=${what}&page=${page}&max=${1}&renderType=json&includeAbstracts=true`);
             var searchResult = new SearchResults_1.SearchResults.SearchResult();
             var response = JSON.parse(resultJson);
             if (response.results && response.results.length > 0) {
                 var res = new SearchResults_1.SearchResults.SearchResult();
-                searchResult.name = response.results[0].name;
-                searchResult.url = response.results[0].url.replace("http", "https");
+                var result = response.results[0];
+                searchResult.name = result.name;
+                searchResult.url = result.url.replace("http", "https");
+                searchResult.abstract = result.abstract;
+                searchResult.nextPage = page < response.filteredCount ? page + 1 : 1;
             }
             return new Promise(resolve => {
                 resolve(searchResult);

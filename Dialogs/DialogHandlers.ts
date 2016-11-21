@@ -76,7 +76,7 @@ export module DialogHandlers {
                 session.send("code-fullsample", result.name, result.url);
             }
             else {
-                session.send("code-fullsamplenodecode", result.name, result.url);
+                session.send("code-fullsamplenocode", result.name, result.url);
             }
 
             session.privateConversationData.lastSearchType = Helpers.SearchType.code;

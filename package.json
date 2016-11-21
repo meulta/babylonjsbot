@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "",
   "main": "app.js",
+  "engines" : { 
+    "node" : ">6.9.1" 
+  },
   "dependencies": {
     "botbuilder": "^3.4.2"  ,
     "restify": "^4.1.1",

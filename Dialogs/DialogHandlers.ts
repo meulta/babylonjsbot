@@ -8,7 +8,7 @@ export module DialogHandlers {
         var introSentence;
         
         if(text == undefined){
-            if(session.privateConversationData.lastSearchText){
+            if(session.privateConversationData.lastSearchText && session.privateConversationData.lastSearchText === text){
                 text = session.privateConversationData.lastSearchText;
                 introSentence = "other-content-letmesee";
             }
@@ -50,7 +50,7 @@ export module DialogHandlers {
         var introSentence;
         
         if(text == undefined){
-            if(session.privateConversationData.lastSearchText){
+            if(session.privateConversationData.lastSearchText && session.privateConversationData.lastSearchText === text){
                 text = session.privateConversationData.lastSearchText;
                 introSentence = "other-content-letmesee";
             }

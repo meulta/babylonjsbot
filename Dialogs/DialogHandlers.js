@@ -16,7 +16,7 @@ var DialogHandlers;
         return __awaiter(this, void 0, void 0, function* () {
             var introSentence;
             if (text == undefined) {
-                if (session.privateConversationData.lastSearchText) {
+                if (session.privateConversationData.lastSearchText && session.privateConversationData.lastSearchText === text) {
                     text = session.privateConversationData.lastSearchText;
                     introSentence = "other-content-letmesee";
                 }
@@ -54,7 +54,7 @@ var DialogHandlers;
         return __awaiter(this, void 0, void 0, function* () {
             var introSentence;
             if (text == undefined) {
-                if (session.privateConversationData.lastSearchText) {
+                if (session.privateConversationData.lastSearchText && session.privateConversationData.lastSearchText === text) {
                     text = session.privateConversationData.lastSearchText;
                     introSentence = "other-content-letmesee";
                 }

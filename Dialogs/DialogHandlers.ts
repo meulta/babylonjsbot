@@ -8,7 +8,7 @@ export module DialogHandlers {
         var introSentence;
         
         if(text == undefined){
-            if(session.privateConversationData.lastSearchText && session.privateConversationData.lastSearchText === text){
+            if(session.privateConversationData.lastSearchText){
                 text = session.privateConversationData.lastSearchText;
                 introSentence = "other-content-letmesee";
             }
@@ -24,7 +24,7 @@ export module DialogHandlers {
         }
         
         if(!introSentence)
-            introSentence = searchPage == 0 ? "doc-foundthis" : "doc-alreadysearched-foundthis";
+            introSentence = searchPage == 1 ? "doc-foundthis" : "doc-alreadysearched-foundthis";
 
         session.sendTyping();
         var result = await DocumentationAPI.search(text, searchPage);
@@ -50,7 +50,7 @@ export module DialogHandlers {
         var introSentence;
         
         if(text == undefined){
-            if(session.privateConversationData.lastSearchText && session.privateConversationData.lastSearchText === text){
+            if(session.privateConversationData.lastSearchText){
                 text = session.privateConversationData.lastSearchText;
                 introSentence = "other-content-letmesee";
             }

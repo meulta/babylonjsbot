@@ -14,6 +14,7 @@ export module DialogHandlers {
             }
             else {
                 session.endDialog("other-content-noprevious");
+                return
             }
         }
         
@@ -55,6 +56,7 @@ export module DialogHandlers {
             }
             else {
                 session.endDialog("other-content-noprevious");
+                return;
             }
         }
         

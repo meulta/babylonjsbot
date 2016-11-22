@@ -13,7 +13,12 @@ export module CodeDialog {
                     DialogHandlers.sendCode(session, frameworkElement.entity);
                 }
                 else {
-                    DialogHandlers.sendCode(session);
+                    if(session.privateConversationData.lastSearchText){
+                        DialogHandlers.sendCode(session);
+                    }
+                    else{
+                        builder.Prompts.text(session, "code-entitynotfound");
+                    }
                 }
             },
             async function (session, results) {

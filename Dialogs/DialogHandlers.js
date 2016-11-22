@@ -22,6 +22,7 @@ var DialogHandlers;
                 }
                 else {
                     session.endDialog("other-content-noprevious");
+                    return;
                 }
             }
             var searchPage = 1;
@@ -59,6 +60,7 @@ var DialogHandlers;
                 }
                 else {
                     session.endDialog("other-content-noprevious");
+                    return;
                 }
             }
             var searchPage = 0;

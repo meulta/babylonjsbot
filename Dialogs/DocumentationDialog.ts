@@ -11,13 +11,18 @@ export module DocumentationDialog {
                 DialogHandlers.sendDocumentation(session, frameworkElement.entity);
             }
             else {
-                DialogHandlers.sendDocumentation(session);
+                if(session.privateConversationData.lastSearchText){
+                    DialogHandlers.sendDocumentation(session);
+                }
+                else{
+                    builder.Prompts.text(session, "doc-entitynotfound");
+                }
             }
                 
             session.endDialog();
         }, async function (session, results) {
                 if (results.response) {
-                    DialogHandlers.sendCode(session, results.response);
+                    DialogHandlers.sendDocumentation(session, results.response);
                 }
                 session.endDialog();
             }

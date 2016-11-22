@@ -19,14 +19,19 @@ var DocumentationDialog;
                         DialogHandlers_1.DialogHandlers.sendDocumentation(session, frameworkElement.entity);
                     }
                     else {
-                        DialogHandlers_1.DialogHandlers.sendDocumentation(session);
+                        if (session.privateConversationData.lastSearchText) {
+                            DialogHandlers_1.DialogHandlers.sendDocumentation(session);
+                        }
+                        else {
+                            builder.Prompts.text(session, "doc-entitynotfound");
+                        }
                     }
                     session.endDialog();
                 });
             }, function (session, results) {
                 return __awaiter(this, void 0, void 0, function* () {
                     if (results.response) {
-                        DialogHandlers_1.DialogHandlers.sendCode(session, results.response);
+                        DialogHandlers_1.DialogHandlers.sendDocumentation(session, results.response);
                     }
                     session.endDialog();
                 });

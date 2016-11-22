@@ -1,5 +1,5 @@
 {
-    "greetings": ["Hello!" , "I am the babylon.js bot."],
+    "greetings": ["Hello! You can ask me for a code sample or documentation. Try 'How can i create light?'" , "I am the babylon.js bot. Ask me for doc or code samples! You could say: 'Show me how to create a cube'"],
     "code-fullsample": ["If you want to take a look at the full sample : [%s](%s)","Found this here : [%s](%s)"],
     "code-fullsamplenocode": ["Here is a sample : [%s](%s)", "There is a sample with that in it : [%s](%s)"],
     "code-foundthis": ["I found these lines that someone wrote:"],
